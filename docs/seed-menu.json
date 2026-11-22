@@ -1,0 +1,8 @@
+[
+  {"menuItemId":1,"name":"Sandwich","pricePaise":4000,"normalStock":20,"demoStock":1},
+  {"menuItemId":2,"name":"Samosa","pricePaise":2000,"normalStock":20,"demoStock":20},
+  {"menuItemId":3,"name":"Veg roll","pricePaise":5000,"normalStock":20,"demoStock":20},
+  {"menuItemId":4,"name":"Juice","pricePaise":2000,"normalStock":20,"demoStock":20},
+  {"menuItemId":5,"name":"Tea","pricePaise":1500,"normalStock":20,"demoStock":20},
+  {"menuItemId":6,"name":"Coffee","pricePaise":2500,"normalStock":20,"demoStock":20}
+]
