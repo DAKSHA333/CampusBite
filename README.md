@@ -8,7 +8,7 @@ This is a classroom Computer Networks project: actual persistent TCP sockets, ne
 
 ## Download for evaluation
 
-The complete runnable project ZIP and executable JAR are available in [GitHub Releases](https://github.com/DAKSHA333/CampusBite/releases/tag/v1.1.0). Download **CampusBite-1.1.0.zip**, extract it, then open the `CampusBite/scripts` folder. Start `server.cmd`, then `kitchen.cmd` and `student.cmd`. Java 21 is required. Click Connect in each client; the classroom staff code is `campus123`.
+The complete runnable project ZIP and executable JAR are available in [GitHub Releases](https://github.com/DAKSHA333/CampusBite/releases/tag/v1.2.0). Download **CampusBite-1.2.0.zip**, extract it, then open the `CampusBite/scripts` folder. Start `server.cmd`, then `kitchen.cmd` and `student.cmd`. Java 21 is required. Click Connect in each client; the classroom staff code is `campus123`.
 
 GitHub's **Code → Download ZIP** contains the source project; run the Maven build below to create its executable JAR. The release ZIP already includes the built JAR, source, tests, scripts and all presentation materials.
 
@@ -16,11 +16,11 @@ GitHub's **Code → Download ZIP** contains the source project; run the Maven bu
 
 ### A refreshed desktop experience
 
-Version 1.1 adds illustrated food cards, a dark green sidebar, menu search and Bites/Drinks filters, a fixed tray summary, plus/minus quantity controls and visual order-progress timelines. Kitchen staff get live preparation, ready and collected counters. Connection settings live in a dedicated dialog. All illustrations are drawn locally in Java; no image downloads are needed.
+Version 1.2 adds real food photography throughout the menu, tray and order views, plus a custom CampusBite logo in the sidebar, connection screen and window icon. All images ship inside the JAR and work offline. The green-and-ivory interface includes search, Bites/Drinks filters, quantity controls and live order timelines. See [image credits and logo details](docs/ASSETS.md).
 
-![Student menu and tray](docs/screenshots/student.png)
+![Student menu and tray](docs/screenshots/student.jpg)
 
-![Kitchen dashboard](docs/screenshots/kitchen.png)
+![Kitchen dashboard](docs/screenshots/kitchen.jpg)
 
 ### Build and launch
 

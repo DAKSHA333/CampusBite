@@ -4,8 +4,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.IOException;
 
-/** Small, local design system. Artwork is drawn in Java: no network or image dependency. */
+/** Small, local design system. Photography and branding are bundled locally for offline use. */
 final class Design {
     static final Color BG=new Color(246,247,242), INK=new Color(25,46,40), MUTED=new Color(111,123,115);
     static final Color GREEN=new Color(34,112,83), DARK=new Color(22,53,43), LIME=new Color(221,239,163);
@@ -37,55 +40,43 @@ final class Design {
             g.setColor(fill);g.fillRoundRect(0,0,getWidth(),getHeight(),radius,radius);g.dispose();super.paintComponent(graphics);
         }
     }
-    static class FoodArt extends JComponent {
+    private static BufferedImage loadImage(String path){
+        try(var stream=Design.class.getResourceAsStream("/images/"+path)){
+            if(stream==null)throw new IllegalStateException("Missing bundled image: "+path);
+            BufferedImage image=ImageIO.read(stream);
+            if(image==null)throw new IllegalStateException("Invalid bundled image: "+path);
+            return image;
+        }catch(IOException e){throw new IllegalStateException("Cannot read bundled image: "+path,e);}
+    }
+    private static final String[] FOOD_NAMES={"sandwich","samosa","roll","juice","tea","coffee"};
+    private static final BufferedImage[] PHOTOS=java.util.Arrays.stream(FOOD_NAMES)
+            .map(name->loadImage("food/"+name+".jpg")).toArray(BufferedImage[]::new);
+    static final BufferedImage LOGO=loadImage("brand/campusbite-logo.png");
+    static JLabel logo(int size){
+        JLabel label=new JLabel(new ImageIcon(LOGO.getScaledInstance(size,size,Image.SCALE_SMOOTH)));
+        label.getAccessibleContext().setAccessibleName("CampusBite logo");return label;
+    }
+    static class FoodPhoto extends JComponent {
         final int item;final Color backdrop;
-        FoodArt(int item,Color backdrop){this.item=item;this.backdrop=backdrop;setPreferredSize(new Dimension(190,112));setMinimumSize(new Dimension(80,75));setToolTipText("Illustration of "+switch(item){case 1->"sandwich";case 2->"samosa";case 3->"vegetable roll";case 4->"juice";case 5->"tea";default->"coffee";});}
+        FoodPhoto(int item,Color backdrop){this.item=item;this.backdrop=backdrop;
+            setPreferredSize(new Dimension(190,132));setMinimumSize(new Dimension(40,40));
+            setToolTipText(item>=1&&item<=PHOTOS.length?"Serving inspiration: "+FOOD_NAMES[item-1]:"CampusBite");
+        }
         @Override protected void paintComponent(Graphics graphics){
-            Graphics2D g=(Graphics2D)graphics.create();g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-            g.setColor(backdrop);g.fillRoundRect(0,0,getWidth(),getHeight(),22,22);
-            double scale=Math.min(getWidth()/220.0,getHeight()/120.0);g.translate(getWidth()/2.0-110*scale,getHeight()/2.0-60*scale);g.scale(scale,scale);
-            g.setColor(new Color(255,255,255,90));g.fillOval(51,5,117,109);
-            g.setColor(new Color(38,49,33,22));g.fillOval(51,96,120,12);
-            switch(item){case 1->sandwich(g);case 2->samosa(g);case 3->roll(g);case 4->juice(g);default->cup(g,item==6);}
-            g.dispose();
+            Graphics2D g=(Graphics2D)graphics.create();
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g.setClip(new RoundRectangle2D.Double(0,0,getWidth(),getHeight(),18,18));
+            g.setColor(backdrop);g.fillRect(0,0,getWidth(),getHeight());
+            BufferedImage photo=item>=1&&item<=PHOTOS.length?PHOTOS[item-1]:LOGO;
+            double scale=Math.max(getWidth()/(double)photo.getWidth(),getHeight()/(double)photo.getHeight());
+            int width=(int)Math.ceil(photo.getWidth()*scale),height=(int)Math.ceil(photo.getHeight()*scale);
+            double focusX=item==6?.74:.5;
+            double focusY=switch(item){case 2->.76;case 3->.68;case 4->.72;case 5->.60;default->.5;};
+            int x=(int)Math.max(getWidth()-width,Math.min(0,getWidth()/2.0-width*focusX));
+            int y=(int)Math.max(getHeight()-height,Math.min(0,getHeight()/2.0-height*focusY));
+            g.drawImage(photo,x,y,width,height,null);g.dispose();
         }
-        private void sandwich(Graphics2D g){
-            polygon(g,new Color(193,128,56),56,80,119,34,169,82,108,107);
-            polygon(g,new Color(245,199,115),54,74,117,29,169,75,108,101);
-            polygon(g,new Color(64,134,61),53,67,115,24,171,69,107,94);
-            g.setColor(new Color(197,60,45));g.fillOval(76,60,73,22);
-            polygon(g,new Color(255,222,132),53,61,116,19,172,62,109,89);
-            polygon(g,new Color(194,130,60),54,52,114,12,172,53,111,80);
-            polygon(g,new Color(251,225,172),58,48,114,14,166,50,111,73);
-            g.setColor(new Color(216,175,108));for(int i=0;i<6;i++)g.fillOval(88+i*9,38+(i%2)*11,4,3);
-        }
-        private void samosa(Graphics2D g){
-            polygon(g,new Color(179,104,31),51,93,91,23,132,95);polygon(g,new Color(243,178,70),55,88,91,24,123,88);
-            polygon(g,new Color(198,125,39),97,96,139,30,177,96);polygon(g,new Color(250,195,91),104,91,139,30,170,91);
-            g.setColor(new Color(184,116,35));for(int i=0;i<7;i++)g.fillOval(76+i*12,70+(i%3)*6,3,3);
-            g.setColor(new Color(248,250,234));g.fillOval(47,87,32,16);g.setColor(new Color(60,126,66));g.fillOval(51,89,24,10);
-        }
-        private void roll(Graphics2D g){
-            g.rotate(-.25,110,60);g.setColor(new Color(190,126,62));g.fillRoundRect(60,36,111,53,24,24);
-            g.setColor(new Color(244,211,151));g.fillRoundRect(57,30,112,53,24,24);
-            g.setColor(new Color(220,182,117));for(int i=0;i<5;i++)g.fillOval(78+i*15,44+(i%2)*16,7,4);
-            g.setColor(new Color(248,247,236));g.fillRoundRect(103,30,47,56,4,4);
-            g.setColor(new Color(53,121,64));g.fillOval(51,34,22,44);g.setColor(new Color(221,86,51));g.fillOval(52,46,13,14);g.setColor(new Color(245,192,65));g.fillOval(59,63,11,9);
-        }
-        private void juice(Graphics2D g){
-            g.setStroke(new BasicStroke(5,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));g.setColor(new Color(41,114,85));g.drawLine(119,50,129,13);g.drawLine(129,13,145,9);
-            polygon(g,new Color(240,158,46),80,32,141,32,132,99,89,99);polygon(g,new Color(255,191,62),85,36,136,36,128,94,93,94);
-            g.setColor(new Color(255,241,184));g.fillRoundRect(93,46,8,38,6,6);g.setColor(new Color(235,132,39));g.fillOval(137,70,37,37);g.setColor(new Color(255,219,112));g.fillOval(141,74,29,29);
-            g.setColor(new Color(251,245,203));for(int i=0;i<6;i++){double a=i*Math.PI/3;g.drawLine(155,89,(int)(155+12*Math.cos(a)),(int)(89+12*Math.sin(a)));}
-        }
-        private void cup(Graphics2D g,boolean coffee){
-            g.setColor(new Color(255,255,248));g.fillOval(63,87,98,17);g.setStroke(new BasicStroke(9));g.setColor(coffee?new Color(119,73,50):new Color(67,132,105));g.drawOval(134,49,28,29);
-            g.setColor(coffee?new Color(153,101,69):new Color(80,150,117));g.fillRoundRect(72,44,72,51,17,17);g.setColor(new Color(245,238,214));g.fillOval(72,36,72,23);g.setColor(coffee?new Color(81,48,34):new Color(165,109,61));g.fillOval(78,40,60,15);
-            g.setColor(new Color(255,255,255,140));g.setStroke(new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
-            for(int i=0;i<3;i++){int x=94+i*15;g.draw(new CubicCurve2D.Float(x,29,x-10,19,x+8,17,x,8));}
-            g.setColor(new Color(255,255,255,80));g.fillRoundRect(81,57,7,25,5,5);
-        }
-        private static void polygon(Graphics2D g,Color color,int... xy){int[] x=new int[xy.length/2],y=new int[x.length];for(int i=0;i<x.length;i++){x[i]=xy[i*2];y[i]=xy[i*2+1];}g.setColor(color);g.fillPolygon(x,y,x.length);}
     }
     static class Progress extends JComponent {
         final int stage;

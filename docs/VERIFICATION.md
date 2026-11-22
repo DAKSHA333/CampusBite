@@ -73,3 +73,8 @@ Winner identity is nondeterministic; either student may win. Server log showed b
 - **Actual Wireshark capture not performed or bundled.** Capture instructions and handshake/Follow TCP Stream walkthrough are supplied in `DEMO.md`.
 - No long-running soak/load benchmark, exhaustive accessibility audit or production security review. Plaintext TCP is intentionally documented as a classroom limitation.
 - First wrapper/dependency download needs internet; JDK 21 is required on machines running the JAR. Java itself is not bundled.
+
+
+## Version 1.2 visual verification - 22 November 2026
+
+Maven verify: 10 tests, zero failures/errors. Launched the packaged JAR with a separate test database. Inspected the generated logo in the sidebar, title-bar icon and connection dialog; real photo crops in menu and drink filters; a selected item's tray thumbnail; successful checkout with a photo in student order history; and the same order with its thumbnail in the connected kitchen. All seven bundled images loaded without external image requests. Current screenshots are `screenshots/student.jpg` and `screenshots/kitchen.jpg`.

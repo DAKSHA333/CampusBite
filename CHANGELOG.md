@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 — Food photography and CampusBite branding
+
+- Six bundled food photographs replace the vector illustrations, with subject-aware crops.
+- Photo thumbnails in the tray and student/kitchen order cards.
+- Custom generated logo in navigation, connection dialog and window icons.
+- Offline image loading, photographer credits and refreshed app previews.
+
 ## 1.1.0 — Modern desktop interface
 
 - Forest-green navigation, warm ivory workspace, rounded cards and consistent typography.
