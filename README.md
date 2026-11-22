@@ -8,11 +8,21 @@ This is a classroom Computer Networks project: actual persistent TCP sockets, ne
 
 ## Download for evaluation
 
-The complete runnable project ZIP and executable JAR are available in [GitHub Releases](https://github.com/DAKSHA333/CampusBite/releases/tag/v1.0.0). Download **CampusBite-1.0.0.zip**, extract it, then open the `CampusBite/scripts` folder. Start `server.cmd`, then `kitchen.cmd` and `student.cmd`. Java 21 is required. Click Connect in each client; the classroom staff code is `campus123`.
+The complete runnable project ZIP and executable JAR are available in [GitHub Releases](https://github.com/DAKSHA333/CampusBite/releases/tag/v1.1.0). Download **CampusBite-1.1.0.zip**, extract it, then open the `CampusBite/scripts` folder. Start `server.cmd`, then `kitchen.cmd` and `student.cmd`. Java 21 is required. Click Connect in each client; the classroom staff code is `campus123`.
 
 GitHub's **Code → Download ZIP** contains the source project; run the Maven build below to create its executable JAR. The release ZIP already includes the built JAR, source, tests, scripts and all presentation materials.
 
 ## Quick start on Windows
+
+### A refreshed desktop experience
+
+Version 1.1 adds illustrated food cards, a dark green sidebar, menu search and Bites/Drinks filters, a fixed tray summary, plus/minus quantity controls and visual order-progress timelines. Kitchen staff get live preparation, ready and collected counters. Connection settings live in a dedicated dialog. All illustrations are drawn locally in Java; no image downloads are needed.
+
+![Student menu and tray](docs/screenshots/student.png)
+
+![Kitchen dashboard](docs/screenshots/kitchen.png)
+
+### Build and launch
 
 Install **JDK 21** and put its `bin` directory on `PATH`. Run commands in this project folder. Maven is downloaded by the included wrapper on the first build; internet access is needed for that build and dependency downloads. Running the packaged application is offline-capable.
 
@@ -37,7 +47,7 @@ java -jar target\campusbite.jar student --profile student-a --name Alice
 java -jar target\campusbite.jar student --profile student-b --name Bob
 ```
 
-Click **Connect** in each client. Defaults: `localhost:5050`; classroom staff code **`campus123`**. Choose quantities in Today's menu, review the cart, and click Place order. My orders shows confirmations and live status. Kitchen buttons expose the next valid state; collected orders move to Completed orders.
+Click **Connect to canteen** in each client, then **Connect** in the dialog. Defaults: `localhost:5050`; classroom staff code **`campus123`**. Choose quantities in Today's menu, review the cart, and click Place order. My orders shows confirmations and live status. Kitchen buttons expose the next valid state; collected orders move to Completed orders.
 
 Windows shortcuts are also provided:
 
@@ -99,7 +109,7 @@ Only the server opens SQLite. Tables: `menu_items`, `customers`, `orders`, `orde
 
 Student profiles are stored at `%USERPROFILE%\.campusbite\<profile>.properties`. They contain tokens and any unresolved order, keyed by the exact host string and port. Use the same host spelling on reconnect (`localhost` and `127.0.0.1` are different local profile keys). Do not share profile files. `.lock` files are harmless coordination files; their presence alone does not mean a process is running.
 
-Click Disconnect and Connect/Reconnect to restore authoritative menu and order history. The client saves an order's stable UUID and contents **before** transmitting. If the response is lost, reconnect and click **Retry pending order**. The server returns the existing order for the same contents; a retry cannot charge stock twice. A definitive validation error clears the pending submission so the cart can be changed. A database-busy error keeps the reference for retry. Pending requests fail on socket close or a ten-second request deadline.
+Open **Connection settings** to Disconnect or Reconnect and restore authoritative menu and order history. The client saves an order's stable UUID and contents **before** transmitting. If the response is lost, reconnect and click **Retry pending order**. The server returns the existing order for the same contents; a retry cannot charge stock twice. A definitive validation error clears the pending submission so the cart can be changed. A database-busy error keeps the reference for retry. Pending requests fail on socket close or a ten-second request deadline.
 
 Heartbeat: clients send PING every 15 seconds; responses contain PONG. Client reads time out after 45 seconds; the server closes clients idle for 90 seconds. A network break need not be detected immediately. UI data shown while offline is the last snapshot until reconnect.
 

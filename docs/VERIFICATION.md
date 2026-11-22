@@ -4,6 +4,12 @@ Verified on **22 November 2026**, Windows, Temurin Java **21.0.12.1**, Maven Wra
 
 ## Automated evidence
 
+### Version 1.1 interface refresh
+
+The same 10 automated tests passed after the interface redesign. Windows smoke checks covered the new connection dialog, plus/minus quantity controls, switching Bites/Drinks categories without losing the selected cart, checkout and automatic navigation to My orders, the progress timeline, kitchen preparation/ready actions and live counters, and restoring a saved student identity with a ready order. Final menu and kitchen screenshots are included in `docs/screenshots/`. A final text-only button-symbol correction was packaged after the passing test run.
+
+The UI uses Java-drawn illustrations and retains Swing, the existing TCP protocol, server authorization and transactional stock handling. The earlier functional checks below continue to describe the underlying application; connection controls now reside in the Connection settings dialog.
+
 | Test | Evidence |
 |---|---|
 | `TcpFoundationTest.twoClientsAndSplitCombinedFrames` | Two real socket clients, one split JSON message, two coalesced messages, correct response IDs and PONG |

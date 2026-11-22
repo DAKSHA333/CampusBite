@@ -19,6 +19,7 @@ Kitchen   ── persistent Socket ─┘          │
 | `Connection` | Client reader, correlated futures, serialized writes, request deadlines and heartbeat |
 | `Profile` | Locked local profile, server-specific token and atomic pending-order save |
 | `CampusFrame` | Shared Swing shell with role-specific student and kitchen views |
+| `Design` | Shared colors, rounded cards, local vector food illustrations and order-progress drawing |
 | `LastSandwichRace` | Two terminal clients synchronized at a barrier for a repeatable race |
 
 ## Threads and ordering
